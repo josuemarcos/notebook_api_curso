@@ -15,6 +15,9 @@ gem "rails-i18n", "~> 7.0.0"
 # Use PostgreSQL as the database for Active Record
 gem "pg", "~> 1.5", ">= 1.5.6"
 
+
+gem "ostruct", "~> 0.1.0"
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
