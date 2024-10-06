@@ -10,7 +10,11 @@ gem "rails", "~> 7.2.1"
 gem "rails-i18n", "~> 7.0.0"
 
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 1.4"
+# gem "sqlite3", ">= 1.4"
+
+# Use PostgreSQL as the database for Active Record
+gem "pg", "~> 1.5", ">= 1.5.6"
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
