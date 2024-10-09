@@ -16,7 +16,7 @@ gem "rails-i18n", "~> 7.0.0"
 gem "pg", "~> 1.5", ">= 1.5.6"
 
 
-gem "ostruct", "~> 0.1.0"
+gem "ostruct", "~> 0.6.0"
 
 # ActiveModel::Serializers allows you to generate your JSON in an object-oriented and convention-driven manner.
 gem "active_model_serializers", "~> 0.10.2"
