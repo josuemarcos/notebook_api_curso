@@ -13,7 +13,7 @@ gem "rails-i18n", "~> 7.0.0"
 # gem "sqlite3", ">= 1.4"
 
 # Use PostgreSQL as the database for Active Record
-gem "pg", "~> 1.5", ">= 1.5.6"
+gem "pg", "~> 1.5"
 
 
 gem "ostruct", "~> 0.1.0"
