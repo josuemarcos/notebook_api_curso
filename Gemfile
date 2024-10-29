@@ -7,7 +7,7 @@ gem "faker"
 gem "rails", "~> 7.2.1"
 
 # Repository for collecting Locale data for Ruby on Rails I18n as well as other interesting, Rails related I18n stuff
-gem "rails-i18n", "~> 7.0.0"
+gem "rails-i18n", "~> 7.0.10"
 
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", ">= 1.4"
