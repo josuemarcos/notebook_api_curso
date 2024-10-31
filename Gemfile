@@ -4,7 +4,7 @@ source "https://rubygems.org"
 # A library for generating fake data such as names, addresses, and phone numbers.
 gem "faker"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.1"
+gem "rails", "~> 7.2.2"
 
 # Repository for collecting Locale data for Ruby on Rails I18n as well as other interesting, Rails related I18n stuff
 gem "rails-i18n", "~> 7.0.0"
