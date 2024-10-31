@@ -2,7 +2,7 @@
 require "fileutils"
 
 APP_ROOT = File.expand_path("..", __dir__)
-APP_NAME = "notebook-api"
+APP_NAME = "notebook-api-curso"
 
 def system!(*args)
   system(*args, exception: true)

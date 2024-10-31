@@ -1,8 +1,0 @@
-LOAD DATABASE
-     FROM storage/development.sqlite3
-     INTO postgresql://josue:1234@localhost:5432/novo_db_postgre
-
-WITH include drop, create tables, no truncate
-
-ALTER SCHEMA 'main' RENAME TO 'public';
-
