@@ -5,12 +5,16 @@ class ContactsController < ApplicationController
   def index
     @contacts = Contact.all
 
-    render json: @contacts, include: %i[ kind phones ]
+    render json: @contacts, include: %i[ kind phones address]
   end
 
   # GET /contacts/1
   def show
-    render json: @contact, only: %i[ name email ], include: { kind: { only: :description }, phones: { only: :number } }
+    render json: @contact, only: %i[ name email ], include: { 
+      kind: { only: :description }, 
+      phones: { only: :number },
+      address: {only: %i[city street]}
+     }
   end
 
   # POST /contacts
@@ -47,6 +51,7 @@ class ContactsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def contact_params
       params.require(:contact).permit(:name, :email, :birthdate, :kind_id,
-      phones_attributes: %i[ id number _destroy])
+      phones_attributes: %i[ id number _destroy],
+      address_attributes: %i[id street city])
     end
 end
