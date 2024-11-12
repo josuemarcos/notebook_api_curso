@@ -1,1 +1,4 @@
-curl -X PATCH  http://localhost:3000/contacts/11 -H 'Content-Type: application/json' -d '{"phones_attributes": [{"number": "123456"}, {"number": "78910"}]}
+curl -X PATCH  http://localhost:3000/contacts/11 -H 'Content-Type: application/json' -d '{"phones_attributes": [{"number": "123456"}, {"number": "78910"}]}'
+
+curl -X POST  http://localhost:3000/contacts/11/address -H 'Content-Type: application/json' -d '{"data": { "type": "address", "attri
+butes": {"city": "Campina Grande", "street": "Rua que vamos morar"}}}'
