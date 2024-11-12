@@ -1,13 +1,17 @@
 class PhonesController < ApplicationController
   before_action :set_contact
 
-
-# GET /phones
-  def show
+  def index
     render json: @contact.phones
   end
 
-# POST /phone 
+
+# GET contacts/phones/1
+  def show
+    render json: @contact.phones.find(params[:id])
+  end
+
+# POST contacts/phones 
   def create
     @contact.phones << Phone.new(phone_params)
 
@@ -21,7 +25,7 @@ class PhonesController < ApplicationController
 # PATCH/PUT /phone/1 
   def update
     
-    if @contact.phones.find(phone_params[:id]).update(phone_params)
+    if @contact.phones.find(params[:id]).update(phone_params)
       render json: @contact.phones
     else
       render json: @contact.errors, status: :unprocessable_entity
@@ -30,7 +34,7 @@ class PhonesController < ApplicationController
 
 # DELETE /phone/1  
   def destroy
-    @contact.phones.find(phone_params[:id]).destroy
+    @contact.phones.find(params[:id]).destroy
   end
 
 
