@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resource :kind, only: [:show], path: "relationships/kind"    
 
     resource :phones, only: [:show]
+    resource :phone, only: %i[create update destroy]
 
     resource :address
   
