@@ -8,6 +8,9 @@ class AddressesController < ApplicationController
 
 # POST /address 
   def create
+    cep = params[:cep]
+    endereco = HTTParty.get("https://viacep.com.br/ws/#{cep}/json/")
+    address_params = {street: endereco["logradouro"], city: endereco["localidade"]}
     @contact.address = Address.new(address_params)
     if @contact.save
       render json: @contact.address, location: contact_address_url(@contact)
@@ -38,6 +41,8 @@ class AddressesController < ApplicationController
     end
 
     def address_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      #ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      params.require(:address).permit(:street, :city)
+
     end
 end
