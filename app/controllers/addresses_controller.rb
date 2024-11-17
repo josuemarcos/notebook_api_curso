@@ -10,13 +10,18 @@ class AddressesController < ApplicationController
   def create
     cep = params[:cep]
     endereco = HTTParty.get("https://viacep.com.br/ws/#{cep}/json/")
-    address_params = {street: endereco["logradouro"], city: endereco["localidade"]}
-    @contact.address = Address.new(address_params)
-    if @contact.save
-      render json: @contact.address, location: contact_address_url(@contact)
+    if endereco.code == 200
+      address_params = {street: endereco["logradouro"], city: endereco["localidade"]}
+      @contact.address = Address.new(address_params)
+      if @contact.save
+        render json: @contact.address, location: contact_address_url(@contact)
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
     else
-      render json: @contact.errors, status: :unprocessable_entity
+      render  json: {erro: "CEP inválido!"}, status: 400
     end
+   
   end
 
 # PATCH/PUT /address/1 
