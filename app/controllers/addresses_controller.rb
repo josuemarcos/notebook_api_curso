@@ -11,17 +11,10 @@ class AddressesController < ApplicationController
     cep = params[:cep]
     endereco = HTTParty.get("https://viacep.com.br/ws/#{cep}/json/")
     if endereco.code == 200
-      address_params = {street: endereco["logradouro"], city: endereco["localidade"]}
-      @contact.address = Address.new(address_params)
-      if @contact.save
-        render json: @contact.address, location: contact_address_url(@contact)
-      else
-        render json: @contact.errors, status: :unprocessable_entity
-      end
+      cadastra_endereco(endereco["logradouro"], endereco["localidade"])
     else
       render  json: {erro: "CEP inválido!"}, status: 400
     end
-   
   end
 
 # PATCH/PUT /address/1 
@@ -48,6 +41,15 @@ class AddressesController < ApplicationController
     def address_params
       #ActiveModelSerializers::Deserialization.jsonapi_parse(params)
       params.require(:address).permit(:street, :city)
+    end
 
+    def cadastra_endereco(street, city)
+      address_params = {street: street, city: city}
+      @contact.address = Address.new(address_params)
+      if @contact.save
+        render json: @contact.address, location: contact_address_url(@contact)
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
     end
 end
