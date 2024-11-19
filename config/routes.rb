@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :logins, only: [:create]
-  resources :kinds
+  resources :kinds, only: %i[index show] #desabilatas funções CREATE, UPDATE e DELETE, pois ainda falta o usuário admin ser implementado
   resources :contacts do
     #resource :kind, only: [:show]
     resource :kind, only: [:show], path: "relationships/kind"    

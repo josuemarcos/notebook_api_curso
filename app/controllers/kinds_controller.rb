@@ -1,4 +1,6 @@
 class KindsController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :atutenticate
   before_action :set_kind, only: %i[ show update destroy ]
 
   # GET /kinds
@@ -12,6 +14,9 @@ class KindsController < ApplicationController
   def show
     render json: @kind
   end
+
+  
+=begin
 
   # POST /kinds
   def create
@@ -45,12 +50,20 @@ class KindsController < ApplicationController
         @kind = Contact.find(params[:contact_id]).kind
         return @kind
       end
-
       @kind = Kind.find(params[:id])
+    end
+
+    def atutenticate
+      senha =  ENV["JWT_SECRET"]
+      authenticate_or_request_with_http_token do |token, options|
+        JWT.decode(token, senha, true, { algorithm: 'HS256' }) 
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def kind_params
       params.require(:kind).permit(:description)
     end
+=end
+
 end

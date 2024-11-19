@@ -58,8 +58,6 @@ class ContactsController < ApplicationController
     def atutenticate
       senha =  ENV["JWT_SECRET"]
       authenticate_or_request_with_http_token do |token, options|
-        # Compare the tokens in a time-constant manner, to mitigate
-        # timing attacks.
         payload = JWT.decode(token, senha, true, { algorithm: 'HS256' })
         credenciais = payload[0]
         @login = Login.find_by(user: credenciais["usuario"])        
