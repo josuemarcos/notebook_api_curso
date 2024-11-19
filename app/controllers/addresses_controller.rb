@@ -52,4 +52,6 @@ class AddressesController < ApplicationController
         render json: @contact.errors, status: :unprocessable_entity
       end
     end
+
+    
 end

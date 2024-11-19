@@ -11,6 +11,10 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 gem 'httparty'
 
+gem 'jwt'
+
+gem 'dotenv-rails'
+
 
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]

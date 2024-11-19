@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_05_190612) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_18_210155) do
   create_table "addresses", force: :cascade do |t|
     t.string "city"
     t.string "street"
@@ -20,6 +20,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_190612) do
     t.index ["contact_id"], name: "index_addresses_on_contact_id"
   end
 
+  create_table "adresses", force: :cascade do |t|
+    t.string "street"
+    t.string "city"
+    t.integer "contact_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_adresses_on_contact_id"
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -27,11 +36,20 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_190612) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kind_id", null: false
+    t.integer "login_id"
     t.index ["kind_id"], name: "index_contacts_on_kind_id"
+    t.index ["login_id"], name: "index_contacts_on_login_id"
   end
 
   create_table "kinds", force: :cascade do |t|
     t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "logins", force: :cascade do |t|
+    t.string "user"
+    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -45,6 +63,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_05_190612) do
   end
 
   add_foreign_key "addresses", "contacts"
+  add_foreign_key "adresses", "contacts"
   add_foreign_key "contacts", "kinds"
+  add_foreign_key "contacts", "logins"
   add_foreign_key "phones", "contacts"
 end

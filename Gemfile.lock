@@ -94,6 +94,10 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dotenv (3.1.4)
+    dotenv-rails (3.1.4)
+      dotenv (= 3.1.4)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
     faker (3.5.1)
@@ -112,6 +116,8 @@ GEM
       reline (>= 0.4.2)
     json (2.7.4)
     jsonapi-renderer (0.2.2)
+    jwt (2.9.3)
+      base64
     language_server-protocol (3.17.0.3)
     logger (1.6.1)
     loofah (2.23.1)
@@ -277,8 +283,10 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  dotenv-rails
   faker
   httparty
+  jwt
   puma (>= 5.0)
   rails (~> 7.2.1, >= 7.2.1.1)
   rubocop-rails-omakase

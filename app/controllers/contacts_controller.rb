@@ -1,11 +1,12 @@
 class ContactsController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :atutenticate
   before_action :set_contact, only: %i[ show update destroy ]
 
   # GET /contacts
   def index
-    @contacts = Contact.all
-
-    render json: @contacts
+    contatos = Contact.where(login_id: @login.id)
+    render json: contatos
   end
 
   # GET /contacts/1
@@ -39,6 +40,18 @@ class ContactsController < ApplicationController
   end
 
   private
+
+    def atutenticate
+      senha =  ENV["JWT_SECRET"]
+      authenticate_or_request_with_http_token do |token, options|
+        # Compare the tokens in a time-constant manner, to mitigate
+        # timing attacks.
+        payload = JWT.decode(token, senha, true, { algorithm: 'HS256' })
+        credenciais = payload[0]
+        @login = Login.find_by(user: credenciais["usuario"])        
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = Contact.find(params[:id])
@@ -46,7 +59,7 @@ class ContactsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.require(:contact).permit(:name, :email, :birthdate, :kind_id,
+      params.require(:contact).permit(:name, :email, :birthdate, :kind_id, :login_id,
       phones_attributes: %i[ id number _destroy],
       address_attributes: %i[id street city])
     end
