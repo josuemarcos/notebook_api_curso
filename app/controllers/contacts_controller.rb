@@ -11,12 +11,17 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1
   def show
-    render json: @contact, include: [ :kind, :phones, :address ]
+    if @contact.login_id == @login.id
+      render json: @contact
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
+    end
   end
 
   # POST /contacts
   def create
     @contact = Contact.new(contact_params)
+    @contact.login_id = @login.id
 
     if @contact.save
       render json: @contact, status: :created, location: @contact
