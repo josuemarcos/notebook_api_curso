@@ -32,16 +32,25 @@ class ContactsController < ApplicationController
 
   # PATCH/PUT /contacts/1
   def update
-    if @contact.update(contact_params)
-      render json: @contact
-    else
-      render json: @contact.errors, status: :unprocessable_entity
+    if @contact.login_id == @login.id
+      if @contact.update(contact_params)
+        render json: @contact
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
     end
   end
 
   # DELETE /contacts/1
   def destroy
-    @contact.destroy!
+
+    if @contact.login_id == @login.id
+      @contact.destroy!
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
+    end
   end
 
   private
