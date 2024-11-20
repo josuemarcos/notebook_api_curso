@@ -17,7 +17,7 @@ class LoginsController < ApplicationController
   def atutenticate(user, password)
     if @login.password == password
       senha =  ENV["JWT_SECRET"]
-      credencial = {usuario:user, senha: password}
+      credencial = {usuario:user, senha: password, exp: Time.now.to_i + 3600}
       token = JWT.encode(credencial, senha, 'HS256')
       render json: {token: token}
     else
