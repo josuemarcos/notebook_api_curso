@@ -1,45 +1,76 @@
 class PhonesController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  
-  TOKEN = "secret123"
-
-  before_action :authenticate, only: [:show]
+  before_action :atutenticate
   before_action :set_contact
 
   def index
-    render json: @contact.phones
+    if @contact.login_id == @login.id
+      render json: @contact.phones
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
+    end
   end
 
 
 # GET contacts/phones/1
   def show
-    render json: @contact.phones.find(params[:id])
+    
+    if @contact.login_id == @login.id
+      render json: @contact.phones.find(params[:id])
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
+    end
+    
   end
 
 # POST contacts/phones 
   def create
-    @contact.phones << Phone.new(phone_params)
 
-    if @contact.save
-      render json: @contact.phones, location: contact_phones_url(@contact)
-    else
-      render json: @contact.errors, status: :unprocessable_entity
+    if @contact.login_id == @login.id
+
+      @contact.phones << Phone.new(phone_params)
+      
+      if @contact.save
+        render json: @contact.phones, location: contact_phones_url(@contact)
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
+
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
     end
+
+    
   end
 
 # PATCH/PUT /phone/1 
   def update
     
-    if @contact.phones.find(params[:id]).update(phone_params)
-      render json: @contact.phones
-    else
-      render json: @contact.errors, status: :unprocessable_entity
+    if @contact.login_id == @login.id
+
+      if @contact.phones.find(params[:id]).update(phone_params)
+        render json: @contact.phones.find(params[:id])
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
+
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
     end
+
+
+    
   end
 
 # DELETE /phone/1  
   def destroy
-    @contact.phones.find(params[:id]).destroy
+    if @contact.login_id == @login.id
+      @contact.phones.find(params[:id]).destroy
+    else 
+      render json: {erro: "Contato não encontrado!"},  status: 404
+    end
+
+    
   end
 
 
@@ -50,15 +81,15 @@ class PhonesController < ApplicationController
     end
 
     def phone_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      params.require(:phone).permit(:number)
     end
-    def authenticate
+    def atutenticate
+      senha =  ENV["JWT_SECRET"]
       authenticate_or_request_with_http_token do |token, options|
-        # Compare the tokens in a time-constant manner, to mitigate
-        # timing attacks.
-        ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
+        payload = JWT.decode(token, senha, true, { algorithm: 'HS256' })
+        credenciais = payload[0]
+        @login = Login.find_by(user: credenciais["usuario"])        
       end
     end
 
-    
 end
