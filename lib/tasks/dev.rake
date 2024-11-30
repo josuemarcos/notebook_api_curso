@@ -4,10 +4,12 @@ namespace :dev do
      puts "Cadastrando contatos..."
     10.times do
       kinds = Kind.all
+      logins = Login.all
       kinds[Random.rand(3)].contacts.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email,
-        birthdate: Faker::Date.between(from: 65.years.ago, to: 18.years.ago)
+        birthdate: Faker::Date.between(from: 65.years.ago, to: 18.years.ago),
+        login_id: logins[Random.rand(logins.length)][:id]
       )
     end
     puts "Contatos cadastrados com sucesso!"
