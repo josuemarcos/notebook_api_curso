@@ -58,3 +58,19 @@ namespace :dev do
     puts "Endereços cadastrados com sucesso!"
   end
 end
+
+namespace :dev do
+  desc "Gera dados mockados para o recurso Login"
+  task init_logins: :environment do
+    puts "Cadastrando Logins..."
+
+    logins = ["josue", "rafaelle", "tayna", "juan"]
+
+    logins.each do |name|
+      login = Login.new(user: name, password: "12345")
+      login.save
+    end
+
+    puts "Logins cadastrados com sucesso!"
+  end
+end
