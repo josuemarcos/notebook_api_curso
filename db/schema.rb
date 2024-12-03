@@ -11,10 +11,13 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_11_18_210155) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "addresses", force: :cascade do |t|
     t.string "city"
     t.string "street"
-    t.integer "contact_id"
+    t.bigint "contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_addresses_on_contact_id"
@@ -26,8 +29,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_18_210155) do
     t.date "birthdate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "kind_id", null: false
-    t.integer "login_id"
+    t.bigint "kind_id", null: false
+    t.bigint "login_id"
     t.index ["kind_id"], name: "index_contacts_on_kind_id"
     t.index ["login_id"], name: "index_contacts_on_login_id"
   end
@@ -47,7 +50,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_18_210155) do
 
   create_table "phones", force: :cascade do |t|
     t.string "number"
-    t.integer "contact_id"
+    t.bigint "contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_phones_on_contact_id"
