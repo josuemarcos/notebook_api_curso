@@ -4,10 +4,3 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
-
-# Rakefile
-task :assets do
-  task :precompile do
-    puts "No assets to precompile"
-  end
-end
