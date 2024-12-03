@@ -10,7 +10,7 @@ gem "pg"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
-gem "active_model_serializers", "~> 0.10.0"
+gem "active_model_serializers", "~> 0.10.15"
 
 gem "httparty"
 
