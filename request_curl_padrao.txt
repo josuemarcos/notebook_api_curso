@@ -3,3 +3,5 @@ curl -X PATCH  http://localhost:3000/contacts/11 -H 'Content-Type: application/j
 curl -X POST  http://localhost:3000/contacts/11/address -H 'Content-Type: application/json' -H "Authorization: Bearer {token} -d '{"data": { "type": "address", "attributes": {"city": "Campina Grande", "street": "Rua que vamos morar"}}}'
 
 curl -X POST  http://localhost:3000/logins -H 'Content-Type: application/json' -d '{"user": "josue", "password": "123456"}'
+
+Comando para iniciar o postgresql: service postgresql start

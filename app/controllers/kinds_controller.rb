@@ -1,6 +1,6 @@
 class KindsController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  before_action :atutenticate
+  #before_action :atutenticate
   before_action :set_kind, only: %i[ show update destroy ]
 
   # GET /kinds

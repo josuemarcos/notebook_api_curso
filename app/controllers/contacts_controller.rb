@@ -1,6 +1,7 @@
 class ContactsController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  before_action :atutenticate
+  include AuthenticationHelper
+  before_action :authenticate_user
   before_action :set_contact, only: %i[ show update destroy ]
 
   # GET /contacts
@@ -22,6 +23,16 @@ class ContactsController < ApplicationController
   def create
     @contact = Contact.new(contact_params)
     @contact.login_id = @login.id
+
+    cep = params[:address_attributes][:cep]
+    endereco = HTTParty.get("https://viacep.com.br/ws/#{cep}/json/")
+
+    if endereco.code == 200
+      cadastra_endereco(endereco["logradouro"], endereco["localidade"])
+    else
+      render  json: {erro: "CEP inválido!"}, status: 400
+      return
+    end
 
     if @contact.save
       render json: @contact, status: :created, location: @contact
@@ -55,18 +66,6 @@ class ContactsController < ApplicationController
 
   private
 
-    def atutenticate
-      senha =  ENV["JWT_SECRET"]
-      authenticate_or_request_with_http_token do |token, options|
-        payload = JWT.decode(token, senha, true, { algorithm: 'HS256' })
-        credenciais = payload[0]
-        @login = Login.find_by(user: credenciais["usuario"])
-        rescue JWT::ExpiredSignature
-          render json: { error: "Token expirado" }, status: :unauthorized
-        rescue JWT::DecodeError
-          render json: { error: "Token inválido" }, status: :unauthorized
-      end
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
@@ -79,4 +78,10 @@ class ContactsController < ApplicationController
       phones_attributes: %i[ id number _destroy],
       address_attributes: %i[id street city])
     end
+
+    def cadastra_endereco(street, city)
+      address_params = {street: street, city: city}
+      @contact.address = Address.new(address_params)
+    end
+
 end

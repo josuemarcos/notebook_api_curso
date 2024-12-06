@@ -1,6 +1,7 @@
 class AddressesController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  before_action :atutenticate
+  include AuthenticationHelper
+  before_action :authenticate_user
   before_action :set_contact
 
 # GET /address/1
@@ -62,18 +63,6 @@ class AddressesController < ApplicationController
         @contact = Contact.find(params[:contact_id])
     end
 
-    def atutenticate
-      senha =  ENV["JWT_SECRET"]
-      authenticate_or_request_with_http_token do |token, options|
-        payload = JWT.decode(token, senha, true, { algorithm: 'HS256' })
-        credenciais = payload[0]
-        @login = Login.find_by(user: credenciais["usuario"])    
-        rescue JWT::ExpiredSignature
-          render json: { error: "Token expirado" }, status: :unauthorized
-        rescue JWT::DecodeError
-          render json: { error: "Token inválido" }, status: :unauthorized
-      end
-    end
 
     def address_params
       #ActiveModelSerializers::Deserialization.jsonapi_parse(params)
