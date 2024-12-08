@@ -18,7 +18,10 @@ gem "jwt"
 
 gem "dotenv-rails"
 
-
+# Search Tools
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+gem 'searchkick'
 
 
 

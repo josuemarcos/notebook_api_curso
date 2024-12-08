@@ -64,6 +64,14 @@ class ContactsController < ApplicationController
     end
   end
 
+  def search
+    term = params[:q] 
+    @contacts = Contact.search(term) 
+    render json: @contacts, status: :ok
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   private
 
 
