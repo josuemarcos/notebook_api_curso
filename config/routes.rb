@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   resources :logins, only: [:create]
   resources :kinds, only: %i[index show] #desabilatas funções CREATE, UPDATE e DELETE, pois ainda falta o usuário admin ser implementado
   resources :contacts do

@@ -1,0 +1,36 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/logins":
+    post:
+      summary: Realiza a autenticação de um usuário
+      tags:
+      - Autenticação
+      parameters: []
+      responses:
+        '200':
+          description: Usuário autenticado com sucesso
+        '401':
+          description: Credenciais inválidas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                password:
+                  type: string
+              required:
+              - user
+              - password
+servers:
+servers:
+- url: https://upgraded-broccoli-97rggpxxwrgcp9xj-3000.app.github.dev
+  description: Servidor local no Codespaces
+- url: https://notebook-api-curso-green.onrender.com
+  description: Servidor público no Render
