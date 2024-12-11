@@ -8,13 +8,7 @@ paths:
     post:
       summary: Realiza a autenticação de um usuário
       tags:
-      - Autenticação
-      parameters: []
-      responses:
-        '200':
-          description: Usuário autenticado com sucesso
-        '401':
-          description: Credenciais inválidas
+        - Autenticação
       requestBody:
         content:
           application/json:
@@ -26,11 +20,44 @@ paths:
                 password:
                   type: string
               required:
-              - user
-              - password
+                - user
+                - password
+      responses:
+        "200":
+          description: Usuário autenticado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "401":
+          description: >
+            Falha na autenticação.
+
+            - Caso o usuário não esteja cadastrado no banco de dados, o erro será:
+              `"erro": "Usuário não cadastrado!"`
+            - Caso o usuário esteja cadastrado no banco de dados, mas a senha esteja incorreta, o erro será:
+              `"erro": "Usuário e Senha não coincidem!"`
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+              examples:
+                usuario_nao_cadastrado:
+                  summary: Usuário não cadastrado
+                  value:
+                    erro: "Usuário não cadastrado!"
+                credenciais_invalidas:
+                  summary: Credenciais inválidas
+                  value:
+                    erro: "Usuário e Senha não coincidem!"
 servers:
-servers:
-- url: https://upgraded-broccoli-97rggpxxwrgcp9xj-3000.app.github.dev
-  description: Servidor local no Codespaces
-- url: https://notebook-api-curso-green.onrender.com
-  description: Servidor público no Render
+  - url: https://upgraded-broccoli-97rggpxxwrgcp9xj-3000.app.github.dev
+    description: Servidor local no Codespaces
+  - url: https://notebook-api-curso-green.onrender.com
+    description: Servidor público no Render
