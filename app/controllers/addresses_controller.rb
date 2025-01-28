@@ -1,6 +1,7 @@
 class AddressesController < ApplicationController
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include AuthenticationHelper
+  include AddressRegisterHelper
   before_action :authenticate_user
   before_action :set_contact
 
@@ -18,13 +19,7 @@ class AddressesController < ApplicationController
 # POST /address 
   def create
     if  @contact.login_id == @login.id
-      cep = params[:cep]
-      endereco = HTTParty.get("https://viacep.com.br/ws/#{cep}/json/")
-      if endereco.code == 200
-        cadastra_endereco(endereco["logradouro"], endereco["localidade"])
-      else
-        render  json: {erro: "CEP inválido!"}, status: 400
-      end
+      register_address params[:cep]
     else
       render json: {erro: "Contato não encontrado!"},  status: 404
     end
